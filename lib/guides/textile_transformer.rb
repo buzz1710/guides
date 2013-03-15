@@ -69,7 +69,7 @@ module Guides
     end
 
     def consume_note(css_class)
-      match = scan_until /(\r?\n){2,}/ # We need at least 2 line breaks but we want to match as many as exist
+      match = scan_until /((\r?\n){2,}|\z)/ # We need at least 2 line breaks but we want to match as many as exist
       note = match.pre_match.gsub(/\n\s*/, " ")
       note = RedCloth.new(note, [:lite_mode]).to_html
       @output << %{<div class="#{css_class}"><p>#{note}</p></div>\n}

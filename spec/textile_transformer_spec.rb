@@ -59,6 +59,11 @@ describe "Transformer" do
       %{<p>Another paragraph</p>\n}
   end
 
+  it "handles NOTE: when it's the last thing on page" do
+    result = @transformer.transform("h1. foo\n\nHi there.\n\nNOTE: Some note\nmore of *the same* note")
+    result.should == %{<h1>foo</h1>\n<p>Hi there.</p>\n<div class="note"><p>Some note more of <strong>the same</strong> note</p></div>\n\n}
+  end
+
   it "does not convert single line breaks to <br>" do
     @transformer.transform("This\nhas\nbreaks.").should == "<p>This has breaks.</p>\n"
     @transformer.transform("This\nhas\nbreaks.\n\nAnd\nparagraphs.").should == "<p>This has breaks.</p>\n<p>And paragraphs.</p>\n"
